@@ -1,0 +1,9 @@
+
+
+
+ * 数据: 来自movieLens
+ * 工具框架：
+   * java 16
+   * spring
+   * mybatis
+   * 数据库采用mariadb
