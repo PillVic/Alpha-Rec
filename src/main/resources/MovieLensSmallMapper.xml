@@ -12,4 +12,8 @@
         INSERT INTO MovieLensSmall.tags (userId, movieId, tag, ts)
         VALUES (#{userId}, #{movieId}, #{tag}, #{timestamp});
     </insert>
+    <insert id="insertRating" parameterType="com.alpharec.pojo.Rating">
+        INSERT INTO MovieLensSmall.ratings(userId, movieId, rating, ts)
+        VALUES (#{userId}, #{movieId}, #{rating}, #{timestamp})
+    </insert>
 </mapper>

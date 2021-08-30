@@ -6,29 +6,29 @@ import com.alpharec.util.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
-public class Tag {
+public class Rating {
     private int userId;
     private int movieId;
-    private String tag;
+    private double rating;
     private Timestamp timestamp;
 
-    public Tag() {
-    }
-
-    public Tag(int userId, int movieId, String tag, Date timestamp) {
+    public Rating(int userId, int movieId, double rating, Timestamp timestamp) {
         this.userId = userId;
         this.movieId = movieId;
-        this.tag = tag;
+        this.rating = rating;
+        this.timestamp = timestamp;
     }
 
-    public Tag(String line) {
-        String[] cols = line.split(",");
-        this.userId = Integer.parseInt(cols[0]);
-        this.movieId = Integer.parseInt(cols[1]);
-        this.tag = cols[2];
-        this.timestamp = new Timestamp(Long.parseLong(cols[3]) * 1000);
+    public Rating() {
+    }
+
+    public Rating(String line) {
+        String[] v = line.split(",");
+        this.userId = Integer.parseInt(v[0]);
+        this.movieId = Integer.parseInt(v[1]);
+        this.rating = Double.parseDouble(v[2]);
+        this.timestamp = new Timestamp(Long.parseLong(v[3]) * 1000);
     }
 
     public int getUserId() {
@@ -47,15 +47,15 @@ public class Tag {
         this.movieId = movieId;
     }
 
-    public String getTag() {
-        return tag;
+    public double getRating() {
+        return rating;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
@@ -63,29 +63,29 @@ public class Tag {
         this.timestamp = timestamp;
     }
 
+
     @Override
     public String toString() {
-        return "Tag{" +
+        return "Rating{" +
                 "userId=" + userId +
                 ", movieId=" + movieId +
-                ", tag='" + tag + '\'' +
+                ", rating=" + rating +
                 ", timestamp=" + timestamp +
                 '}';
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
 
-        final String fileName = "DataSet/MovieLens/ml-latest-small/tags.csv";
-        Handler handler = new Handler(fileName, (line) -> {
-            Tag t = new Tag(line);
-            System.out.println(t);
-            dbWriter.insertTag(t);
+        String file = "DataSet/MovieLens/ml-latest-small/ratings.csv";
+        Handler handler = new Handler(file, (line)->{
+            Rating rating = new Rating(line);
+            dbWriter.insertRating(rating);
+            System.out.println(rating);
         });
         Thread r = new Thread(handler, "write link");
         r.start();
-
         try {
             r.join();
         } catch (Exception e) {
@@ -95,5 +95,4 @@ public class Tag {
         sqlSession.commit();
         sqlSession.close();
     }
-
 }

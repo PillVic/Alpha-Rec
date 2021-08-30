@@ -25,6 +25,7 @@ public class Handler implements Runnable {
     public void run() {
         Thread producer = new Thread(fr, "read data file");
         producer.start();
+
         Thread consumerThread = new Thread(() -> {
             while (producer.isAlive() || !queue.isEmpty()) {
                 String line = queue.poll();
