@@ -3,8 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.learn.dao.EmployeeDao">
-    <update id="com.alpharec.pojo.Movie">
-
-    </update>
+<mapper namespace="com.alpharec.data.DbWriter">
+    <insert id="insertLink" parameterType="com.alpharec.pojo.Link">
+        INSERT INTO MovieLensSmall.links (movieId, imdbID, tmdbId)
+        VALUES (#{movieId}, #{imdbId}, #{tmdbId});
+    </insert>
+    <insert id="insertTag" parameterType="com.alpharec.pojo.Tag">
+        INSERT INTO MovieLensSmall.tags (userId, movieId, tag, ts)
+        VALUES (#{userId}, #{movieId}, #{tag}, #{timestamp});
+    </insert>
 </mapper>

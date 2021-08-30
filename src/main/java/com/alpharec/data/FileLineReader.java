@@ -5,24 +5,29 @@ import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class FileLineReader implements  Runnable{
+public class FileLineReader implements Runnable {
     private final BlockingQueue<String> queue;
     private BufferedReader bf;
-    public FileLineReader(BlockingQueue<String > q, String path){
+
+    public FileLineReader(BlockingQueue<String> q, String path) {
         this.queue = q;
         try {
             File f = new File(path);
             this.bf = new BufferedReader(new java.io.FileReader(f));
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
-    private void readlines(){
+
+    private void readlines() {
         String line = null;
-        try{
-        while((line=bf.readLine())!=null){
-            queue.add(line);
-        }}catch (Exception e){
+        try {
+            line = bf.readLine();
+            System.out.println(line);
+            while ((line = bf.readLine()) != null) {
+                queue.add(line);
+            }
+        } catch (Exception e) {
             System.out.println(e);
         }
     }

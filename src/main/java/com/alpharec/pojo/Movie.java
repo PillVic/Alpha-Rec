@@ -2,10 +2,24 @@ package com.alpharec.pojo;
 
 public class Movie {
     private int movieId;
-    private int title;
+    private String title;
+    private int year;
     private String genres;
 
     public Movie() {
+    }
+
+    public Movie(String line){
+        String[] v = line.split(",");
+        this.movieId = Integer.getInteger(v[0]);
+        this.genres = v[2];
+    }
+
+    public Movie(int movieId, String title, int year, String genres) {
+        this.movieId = movieId;
+        this.title = title;
+        this.year = year;
+        this.genres = genres;
     }
 
     public int getMovieId() {
@@ -16,11 +30,11 @@ public class Movie {
         this.movieId = movieId;
     }
 
-    public int getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(int title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -29,12 +43,6 @@ public class Movie {
     }
 
     public void setGenres(String genres) {
-        this.genres = genres;
-    }
-
-    public Movie(int movieId, int title, String genres) {
-        this.movieId = movieId;
-        this.title = title;
         this.genres = genres;
     }
 }

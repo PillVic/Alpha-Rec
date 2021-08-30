@@ -17,6 +17,6 @@
     </environments>
     <mappers>
         <!--resource-->
-        <mapper resource="EmployeeMapper.xml"/>
+        <mapper resource="MovieLensSmallMapper.xml"/>
     </mappers>
 </configuration>
