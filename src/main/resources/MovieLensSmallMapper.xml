@@ -16,4 +16,8 @@
         INSERT INTO MovieLensSmall.ratings(userId, movieId, rating, ts)
         VALUES (#{userId}, #{movieId}, #{rating}, #{timestamp})
     </insert>
+    <insert id="insertMovie" parameterType="com.alpharec.pojo.Movie">
+        INSERT INTO MovieLensSmall.movies(movieId, title, year, genres)
+        VALUES (#{movieId}, #{title}, #{year}, #{genres})
+    </insert>
 </mapper>
