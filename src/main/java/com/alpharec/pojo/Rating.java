@@ -78,7 +78,7 @@ public class Rating {
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
 
-        String file = "DataSet/MovieLens/ml-latest-small/ratings.csv";
+        String file = "Data/MovieLens/ml-latest-small/ratings.csv";
         Handler handler = new Handler(file, (line)->{
             Rating rating = new Rating(line);
             dbWriter.insertRating(rating);

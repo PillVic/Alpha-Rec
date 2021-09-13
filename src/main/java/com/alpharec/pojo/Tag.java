@@ -77,11 +77,11 @@ public class Tag {
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
 
-        final String fileName = "DataSet/MovieLens/ml-latest-small/tags.csv";
+        final String fileName = "Data/MovieLens/ml-latest-small/tags.csv";
         Handler handler = new Handler(fileName, (line) -> {
             Tag t = new Tag(line);
             System.out.println(t);
-            dbWriter.insertTag(t);
+/*            dbWriter.insertTag(t);*/
         });
         Thread r = new Thread(handler, "write link");
         r.start();

@@ -97,7 +97,7 @@ public class Movie {
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
 
-        String file = "DataSet/MovieLens/ml-latest-small/movies.csv";
+        String file = "Data/MovieLens/ml-latest-small/movies.csv";
         Handler handler = new Handler(file, (line) -> {
             Movie movie = new Movie(line);
             dbWriter.insertMovie(movie);

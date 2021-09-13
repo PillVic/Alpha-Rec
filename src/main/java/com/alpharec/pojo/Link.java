@@ -64,7 +64,7 @@ public class Link {
 
     public static void main(String[] args) {
 
-        String file = "DataSet/MovieLens/ml-latest-small/links.csv";
+        String file = "Data/MovieLens/ml-latest-small/links.csv";
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
 
@@ -77,6 +77,7 @@ public class Link {
         try {
             r.join();
 
+            sqlSession.commit();
             sqlSession.close();
         } catch (InterruptedException e) {
             e.printStackTrace();
