@@ -2,14 +2,12 @@ package com.alpharec.item;
 
 import com.alpharec.pojo.Movie;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class MovieItem {
     private final Movie movie;
     private final List<String> genreList;
-    private List<String> tags;
+    private Set<String> tags;
     private int sawCount = 0;
     private double totalRate = 0;
 
@@ -20,7 +18,7 @@ public class MovieItem {
 
     public void addTag(String tag) {
         if (this.tags == null) {
-            this.tags = new ArrayList<>();
+            this.tags = new HashSet<>();
         }
         this.tags.add(tag);
     }
@@ -30,7 +28,7 @@ public class MovieItem {
         this.totalRate += rate;
     }
 
-    public List<String> getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 

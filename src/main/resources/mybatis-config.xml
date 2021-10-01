@@ -17,6 +17,7 @@
     </environments>
     <mappers>
         <!--resource-->
-        <mapper resource="MovieLensSmallMapper.xml"/>
+        <mapper resource="DbWriterMapper.xml"/>
+        <mapper resource="DbReaderMapper.xml"/>
     </mappers>
 </configuration>

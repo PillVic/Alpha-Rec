@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.alpharec.data.DbReader">
+    <select id="getMaxMovieId" resultType="int">
+        SELECT MAX(movieId)
+        FROM movies;
+    </select>
+    <select id="getMinMovieId" resultType="int">
+        SELECT MIN(movieId)
+        FROM movies;
+    </select>
+
+    <select id="getMovieById" parameterType="int" resultType="com.alpharec.pojo.Movie">
+        SELECT *
+        FROM movies
+        WHERE movieId = #{movieId};
+    </select>
+    <select id="getLinkById" parameterType="int" resultType="com.alpharec.pojo.Link">
+        SELECT *
+        FROM links
+        WHERE movieId = #{movieId};
+    </select>
+    <select id="getMovieRatingsByMovieId" parameterType="int" resultType="com.alpharec.pojo.Rating">
+        SELECT *
+        FROM ratings
+        WHERE movieId = #{movieId};
+    </select>
+    <select id="getMovieRatingsByUserId" parameterType="int" resultType="com.alpharec.pojo.Rating">
+        SELECT *
+        FROM ratings
+        WHERE userId = #{userId};
+    </select>
+    <select id="getTagsByMovieId" parameterType="int" resultType="com.alpharec.pojo.Tag">
+        SELECT *
+        FROM tags
+        WHERE movieId = #{movieId};
+    </select>
+    <select id="getTagsByUserId" parameterType="int" resultType="com.alpharec.pojo.Tag">
+        SELECT *
+        FROM tags
+        WHERE userId = #{userId};
+    </select>
+
+</mapper>

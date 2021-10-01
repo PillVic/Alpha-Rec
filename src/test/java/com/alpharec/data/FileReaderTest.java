@@ -10,7 +10,7 @@ public class FileReaderTest {
     @Test
     public void testFileRead() {
         BlockingQueue<String> q = new ArrayBlockingQueue<>(1024);
-        String file = "/home/neovic/Work/RecommendSystem/DataSet/MovieLens/ml-latest-small/links.csv";
+        String file = "Data/MovieLens/ml-latest-small/links.csv";
 
         FileLineReader fr = new FileLineReader(q, file);
         Thread producer = new Thread(fr, "read data");
