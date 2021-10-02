@@ -9,12 +9,12 @@ import java.util.List;
 
 public class DbApiTest {
     @Test
-    public void writeLinks(){
+    public void writeLinks() {
         String file = "/home/neovic/Work/RecommendSystem/DataSet/MovieLens/ml-latest-small/links.csv";
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
 
-        Handler h = new Handler(file, (line)->{
+        Handler h = new Handler(file, (line) -> {
             Link link = new Link(line);
             dbWriter.insertLink(link);
         });
@@ -28,8 +28,9 @@ public class DbApiTest {
             e.printStackTrace();
         }
     }
+
     @Test
-    public void readRecord(){
+    public void readRecord() {
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         DbReader dbReader = sqlSession.getMapper(DbReader.class);
 
@@ -41,5 +42,6 @@ public class DbApiTest {
         System.out.println(dbReader.getMovieRatingsByUserId(1).size());
         System.out.println(dbReader.getTagsByUserId(2).size());
         System.out.println(dbReader.getTagsByMovieId(1).size());
+        System.out.println(dbReader.getMovieIds(200, 250).size());
     }
 }

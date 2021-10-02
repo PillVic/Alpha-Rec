@@ -52,4 +52,15 @@ public class MovieItem {
     public List<String> getGenreList() {
         return genreList;
     }
+
+    @Override
+    public String toString() {
+        return "MovieItem{" +
+                "movie=" + movie +
+                ", genreList=" + genreList +
+                ", tags=" + tags +
+                ", sawCount=" + sawCount +
+                ", totalRate=" + totalRate +
+                '}';
+    }
 }

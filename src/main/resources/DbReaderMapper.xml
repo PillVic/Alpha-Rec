@@ -12,6 +12,12 @@
         SELECT MIN(movieId)
         FROM movies;
     </select>
+    <select id="getMovieIds" resultType="int">
+        SELECT movieId
+        FROM movies
+        WHERE movieId &gt;= #{minMovieId}
+          AND movieId &lt;= #{maxMovieId};
+    </select>
 
     <select id="getMovieById" parameterType="int" resultType="com.alpharec.pojo.Movie">
         SELECT *
