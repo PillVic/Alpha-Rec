@@ -5,6 +5,8 @@ import com.alpharec.data.Handler;
 import com.alpharec.util.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 
+import static com.alpharec.util.ObjectAnalyzer.ToString;
+
 public class Link {
     private int movieId;
     private int imdbId;
@@ -55,11 +57,7 @@ public class Link {
 
     @Override
     public String toString() {
-        return "Link{" +
-                "movieId=" + movieId +
-                ", imdbId=" + imdbId +
-                ", tmdbId=" + tmdbId +
-                '}';
+        return ToString(this);
     }
 
     public static void main(String[] args) {

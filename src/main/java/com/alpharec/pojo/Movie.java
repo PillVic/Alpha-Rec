@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.alpharec.util.ObjectAnalyzer.ToString;
+
 public class Movie {
     private int movieId;
     private String title;
@@ -85,12 +87,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "movieId=" + movieId +
-                ", title='" + title + '\'' +
-                ", genres='" + genres + '\'' +
-                ", year=" + year +
-                '}';
+        return ToString(this);
     }
 
     public static void main(String[] args) {

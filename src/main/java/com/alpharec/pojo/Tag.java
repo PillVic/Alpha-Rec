@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import static com.alpharec.util.ObjectAnalyzer.ToString;
+
 public class Tag {
     private int userId;
     private int movieId;
@@ -65,12 +67,7 @@ public class Tag {
 
     @Override
     public String toString() {
-        return "Tag{" +
-                "userId=" + userId +
-                ", movieId=" + movieId +
-                ", tag='" + tag + '\'' +
-                ", timestamp=" + timestamp +
-                '}';
+        return ToString(this);
     }
 
     public static void main(String args[]) {

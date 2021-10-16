@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Timestamp;
 
+import static com.alpharec.util.ObjectAnalyzer.ToString;
+
 public class Rating {
     private int userId;
     private int movieId;
@@ -66,12 +68,7 @@ public class Rating {
 
     @Override
     public String toString() {
-        return "Rating{" +
-                "userId=" + userId +
-                ", movieId=" + movieId +
-                ", rating=" + rating +
-                ", timestamp=" + timestamp +
-                '}';
+        return ToString(this);
     }
 
     public static void main(String[] args) {
