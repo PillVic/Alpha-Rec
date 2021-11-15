@@ -13,7 +13,11 @@ public class MovieItem {
 
     public MovieItem(Movie movie) {
         this.movie = movie;
-        this.genreList = Arrays.stream(movie.getGenres().split(",")).toList();
+        if (movie.getGenres() != null) {
+            this.genreList = Arrays.stream(movie.getGenres().split(",")).toList();
+        }else{
+            this.genreList = null;
+        }
     }
 
     public void addTag(String tag) {

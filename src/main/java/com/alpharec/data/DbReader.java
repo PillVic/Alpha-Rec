@@ -10,15 +10,21 @@ import java.util.List;
 
 public interface DbReader {
     int getMaxMovieId();
+
     int getMinMovieId();
 
     List<Integer> getMovieIds(@Param("minMovieId") int minMovieId, @Param("maxMovieId") int maxMovieId);
 
     //basic single selec"t
     Movie getMovieById(int movieId);
+
     Link getLinkById(int movieId);
+
     List<Rating> getMovieRatingsByMovieId(int movieId);
+
     List<Rating> getMovieRatingsByUserId(int movieId);
+
     List<Tag> getTagsByMovieId(int movieId);
+
     List<Tag> getTagsByUserId(int userId);
 }

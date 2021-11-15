@@ -1,12 +1,5 @@
 package com.alpharec.util;
 
-import com.alpharec.pojo.Link;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class ObjectAnalyzer {
     public static <T> String ToString(T t) {
         StringBuilder s = new StringBuilder();
@@ -28,8 +21,7 @@ public class ObjectAnalyzer {
         return s.toString();
     }
 
-    public static void main(String[] args) {
-        Link link = new Link(1, 2, 3);
-        System.out.println(link);
+    public static <T> int HashCode(T t) {
+        return ToString(t).hashCode();
     }
 }

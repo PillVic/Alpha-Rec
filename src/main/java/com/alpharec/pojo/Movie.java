@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.alpharec.util.ObjectAnalyzer.HashCode;
 import static com.alpharec.util.ObjectAnalyzer.ToString;
 
 public class Movie {
@@ -88,6 +89,11 @@ public class Movie {
     @Override
     public String toString() {
         return ToString(this);
+    }
+
+    @Override
+    public int hashCode(){
+        return HashCode(this);
     }
 
     public static void main(String[] args) {
