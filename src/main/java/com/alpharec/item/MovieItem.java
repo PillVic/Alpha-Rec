@@ -3,6 +3,7 @@ package com.alpharec.item;
 import com.alpharec.pojo.Movie;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MovieItem {
     private final Movie movie;
@@ -14,8 +15,9 @@ public class MovieItem {
     public MovieItem(Movie movie) {
         this.movie = movie;
         if (movie.getGenres() != null) {
-            this.genreList = Arrays.stream(movie.getGenres().split(",")).toList();
-        }else{
+            this.genreList = Arrays.stream(movie.getGenres().split(","))
+                    .map(String::toLowerCase).toList();
+        } else {
             this.genreList = null;
         }
     }
@@ -24,7 +26,7 @@ public class MovieItem {
         if (this.tags == null) {
             this.tags = new HashSet<>();
         }
-        this.tags.add(tag);
+        this.tags.add(tag.toLowerCase());
     }
 
     public void addRate(double rate) {

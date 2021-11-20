@@ -5,8 +5,6 @@ import com.alpharec.util.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
-import java.util.List;
-
 public class DbApiTest {
     @Test
     public void writeLinks() {
