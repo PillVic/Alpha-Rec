@@ -4,9 +4,7 @@ import com.alpharec.JavaConfig;
 import com.alpharec.data.Resource;
 import com.alpharec.item.MovieItem;
 import com.alpharec.pojo.Movie;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.alpharec.util.Flag.MovieFieldValue.MOVIE_GENRES;
-import static com.alpharec.util.Flag.MovieFieldValue.MOVIE_TAG;
+import static com.alpharec.util.Flag.MovieField.*;
 
 public class MovieIndexBuilder implements Runnable {
-
-    public static final String MOVIE_ID = "MOVIE_ID";
-
     private static final Logger log = LoggerFactory.getLogger(MovieIndexBuilder.class);
     public static int threads = 20;
     public static final String MOVIE_INDEX_PATH = "Data/Index/MovieIndex";
@@ -55,7 +49,7 @@ public class MovieIndexBuilder implements Runnable {
     private Document getMovieDoc(MovieItem movieItem) {
         Document doc = new Document();
         if (movieItem == null) return doc;
-        doc.add(new TextField(MOVIE_ID, movieItem.getMovie().getMovieId() + "", Field.Store.YES));
+        doc.add(new TextField(MOVIE_ID + "", movieItem.getMovie().getMovieId() + "", Field.Store.YES));
         Set<String> tags = movieItem.getTags();
         if (tags != null && !tags.isEmpty()) {
             for (var tag : movieItem.getTags()) {
@@ -68,6 +62,10 @@ public class MovieIndexBuilder implements Runnable {
                 doc.add(new TextField(MOVIE_GENRES + "", gen, Field.Store.YES));
             }
         }
+        doc.add(new DoublePoint(MOVIE_TOTAL_SCORE + "", movieItem.getTotalRate()));
+        doc.add(new IntPoint(MOVIE_SEEN + "", movieItem.getSeenCount()));
+        doc.add(new DoublePoint(MOVIE_AVERAGE + "", movieItem.getAverage()));
+        doc.add(new IntPoint(MOVIE_YEAR + "", movieItem.getMovie().getYear()));
         return doc;
     }
 

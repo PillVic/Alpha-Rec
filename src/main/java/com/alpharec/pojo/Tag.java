@@ -78,7 +78,7 @@ public class Tag {
         Handler handler = new Handler(fileName, (line) -> {
             Tag t = new Tag(line);
             System.out.println(t);
-/*            dbWriter.insertTag(t);*/
+            dbWriter.insertTag(t);
         });
         Thread r = new Thread(handler, "write link");
         r.start();

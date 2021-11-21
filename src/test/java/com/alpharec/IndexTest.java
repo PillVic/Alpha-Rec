@@ -9,12 +9,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static com.alpharec.indexbuilder.MovieIndexBuilder.*;
-import static com.alpharec.util.Flag.MovieFieldValue.MOVIE_TAG;
+import static com.alpharec.util.Flag.MovieField.MOVIE_ID;
+import static com.alpharec.util.Flag.MovieField.MOVIE_TAG;
 
 public class IndexTest {
     @Test
@@ -24,16 +22,12 @@ public class IndexTest {
         IndexSearcher searcher = r.getIndexSearcher(MOVIE_INDEX_PATH);
 
         String movieTag = "funny";
-        List<Integer> movieIds = new ArrayList<>();
         TermQuery query = new TermQuery(new Term(MOVIE_TAG + "", movieTag));
         BooleanQuery bq = new BooleanQuery.Builder().add(query, BooleanClause.Occur.MUST).build();
         TopDocs docs = searcher.search(bq, Integer.MAX_VALUE);
         for (var doc : docs.scoreDocs) {
             Document document = searcher.doc(doc.doc);
-            movieIds.add(Integer.valueOf(document.get(MOVIE_ID)));
-            System.out.println(document);
+            System.out.println(document.get(MOVIE_ID + ""));
         }
-        Collections.sort(movieIds);
-        System.out.println(movieIds);
     }
 }

@@ -3,13 +3,14 @@ package com.alpharec.item;
 import com.alpharec.pojo.Movie;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static com.alpharec.util.ObjectAnalyzer.ToString;
 
 public class MovieItem {
     private final Movie movie;
     private final List<String> genreList;
     private Set<String> tags;
-    private int sawCount = 0;
+    private int seenCount = 0;
     private double totalRate = 0;
 
     public MovieItem(Movie movie) {
@@ -30,7 +31,7 @@ public class MovieItem {
     }
 
     public void addRate(double rate) {
-        this.sawCount += 1;
+        this.seenCount += 1;
         this.totalRate += rate;
     }
 
@@ -38,8 +39,8 @@ public class MovieItem {
         return tags;
     }
 
-    public int getSawCount() {
-        return this.sawCount;
+    public int getSeenCount() {
+        return this.seenCount;
     }
 
     public double getTotalRate() {
@@ -47,8 +48,8 @@ public class MovieItem {
     }
 
     public double getAverage() {
-        if (this.sawCount == 0) return 0;
-        return this.totalRate / this.sawCount;
+        if (this.seenCount == 0) return 0;
+        return this.totalRate / this.seenCount;
     }
 
     public Movie getMovie() {
@@ -61,12 +62,7 @@ public class MovieItem {
 
     @Override
     public String toString() {
-        return "MovieItem{" +
-                "movie=" + movie +
-                ", genreList=" + genreList +
-                ", tags=" + tags +
-                ", sawCount=" + sawCount +
-                ", totalRate=" + totalRate +
-                '}';
+        return ToString(this);
     }
+
 }
