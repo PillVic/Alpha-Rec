@@ -16,7 +16,7 @@ public class MovieItem {
     public MovieItem(Movie movie) {
         this.movie = movie;
         if (movie.getGenres() != null) {
-            this.genreList = Arrays.stream(movie.getGenres().split(","))
+            this.genreList = Arrays.stream(movie.getGenres().split("\\|"))
                     .map(String::toLowerCase).toList();
         } else {
             this.genreList = null;

@@ -1,21 +1,15 @@
 package com.alpharec.util;
 
-import com.alpharec.JavaConfig;
-import com.alpharec.data.Resource;
-import com.alpharec.item.MovieItem;
 import com.alpharec.pojo.Link;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.alpharec.util.ObjectAnalyzer.*;
+import static com.alpharec.util.ObjectAnalyzer.SubList;
+import static com.alpharec.util.ObjectAnalyzer.getTopN;
 
 public class TestUtil {
     private static final Logger logger = LoggerFactory.getLogger(TestUtil.class);

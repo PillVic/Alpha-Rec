@@ -7,4 +7,8 @@ public class Flag {
         MOVIE_TAG, MOVIE_GENRES, MOVIE_ID, MOVIE_YEAR,
         MOVIE_TOTAL_SCORE, MOVIE_SEEN, MOVIE_AVERAGE
     }
+
+    public enum UserField {
+        USER_ID, PREFER_TAGS, PREFER_GENRES
+    }
 }

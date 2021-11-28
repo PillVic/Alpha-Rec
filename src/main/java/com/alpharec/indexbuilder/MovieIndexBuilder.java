@@ -21,15 +21,16 @@ public class MovieIndexBuilder implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(MovieIndexBuilder.class);
     public static int threads = 20;
     public static final String MOVIE_INDEX_PATH = "Data/Index/MovieIndex";
-    private Resource r;
+    private static final  Resource r;
+
+    static{
+        ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
+        r = context.getBean("resource", Resource.class);
+    }
 
     @Override
     public void run() {
         try {
-
-            ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
-
-            this.r = context.getBean("resource", Resource.class);
             int minMovieId = r.dbReader.getMinMovieId();
             int maxMovieId = r.dbReader.getMaxMovieId();
             log.info("[INFO]: minMovieId:{}, maxMovieId:{}", minMovieId, maxMovieId);
@@ -69,17 +70,17 @@ public class MovieIndexBuilder implements Runnable {
         return doc;
     }
 
-    private List<MovieItem> indexRange(int minMovieId, int maxMovieId) {
+    public static  List<MovieItem> indexRange(int minMovieId, int maxMovieId) {
         List<Integer> movieIds = r.dbReader.getMovieIds(minMovieId, maxMovieId);
         List<MovieItem> movieItems = new ArrayList<>();
         for (var movieId : movieIds) {
-            MovieItem movieItem = index(movieId);
+            MovieItem movieItem = BuildMovieItem(movieId);
             movieItems.add(movieItem);
         }
         return movieItems;
     }
 
-    private MovieItem index(int movieId) {
+    public static MovieItem BuildMovieItem(int movieId) {
         MovieItem movieItem = new MovieItem(r.dbReader.getMovieById(movieId));
         for (var tag : r.dbReader.getTagsByMovieId(movieId)) {
             movieItem.addTag(tag.getTag());

@@ -1,9 +1,14 @@
 package com.alpharec.data;
 
+import com.alpharec.JavaConfig;
 import com.alpharec.pojo.Link;
 import com.alpharec.util.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import static com.alpharec.util.ObjectAnalyzer.ToString;
 
 public class DbApiTest {
     @Test
@@ -24,6 +29,17 @@ public class DbApiTest {
             sqlSession.close();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testUser(){
+        ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
+        Resource r = context.getBean("resource", Resource.class);
+        System.out.println(r.dbReader.getMinUserId());
+        System.out.println(r.dbReader.getMaxUserId());
+        for(var t:r.dbReader.getMovieRatingsByUserId(1)){
+            System.out.println(ToString(t));
         }
     }
 

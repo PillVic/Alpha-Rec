@@ -1,8 +1,6 @@
 package com.alpharec.util;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.Math.min;
@@ -26,6 +24,18 @@ public class ObjectAnalyzer {
         s.trimToSize();
         s.append("}");
         return s.toString();
+    }
+
+    public static <T> boolean isNullOrEmptyList(List<T> list) {
+        return list == null || list.isEmpty();
+    }
+
+    public static <K, V> boolean isNullOrEmptyMap(Map<K, V> map) {
+        return map == null || map.isEmpty();
+    }
+
+    public static <T> boolean isNullOrEmptySet(Set<T> set) {
+        return set == null || set.isEmpty();
     }
 
     public static <T> int HashCode(T t) {

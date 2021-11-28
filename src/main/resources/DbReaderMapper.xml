@@ -12,6 +12,17 @@
         SELECT MIN(movieId)
         FROM movies;
     </select>
+
+    <!--关于推荐，暂时只计算有评分的用户-->
+    <select id="getMaxUserId" resultType="int">
+        SELECT MAX(userId)
+        FROM ratings;
+    </select>
+    <select id="getMinUserId" resultType="int">
+        SELECT MIN(userId)
+        FROM ratings;
+    </select>
+
     <select id="getMovieIds" resultType="int">
         SELECT movieId
         FROM movies
