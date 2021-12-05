@@ -8,8 +8,13 @@ import org.apache.ibatis.session.SqlSession;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import static com.alpharec.util.ObjectAnalyzer.ToString;
+import static com.alpharec.data.Resource.getResource;
+import static com.alpharec.util.ObjectAnalyzer.toJsonString;
 
+/**
+ * 解析tagw文件
+ * @author pillvic
+* */
 public class Tag {
     private int userId;
     private int movieId;
@@ -67,12 +72,11 @@ public class Tag {
 
     @Override
     public String toString() {
-        return ToString(this);
+        return toJsonString(this);
     }
 
-    public static void main(String args[]) {
-        SqlSession sqlSession = MybatisUtils.getSqlSession();
-        DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
+    public static void main(String[] args) {
+        DbWriter dbWriter = getResource().dbWriter;
 
         final String fileName = "Data/MovieLens/ml-latest-small/tags.csv";
         Handler handler = new Handler(fileName, (line) -> {
@@ -88,9 +92,6 @@ public class Tag {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        sqlSession.commit();
-        sqlSession.close();
     }
 
 }

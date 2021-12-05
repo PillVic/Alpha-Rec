@@ -3,18 +3,17 @@ package com.alpharec.pojo;
 import com.alpharec.data.DbWriter;
 import com.alpharec.data.Handler;
 import com.alpharec.util.Flag;
-import com.alpharec.util.MybatisUtils;
-import org.apache.ibatis.session.SqlSession;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.alpharec.util.ObjectAnalyzer.HashCode;
-import static com.alpharec.util.ObjectAnalyzer.ToString;
+import static com.alpharec.data.Resource.getResource;
+import static com.alpharec.util.ObjectAnalyzer.getHashCode;
+import static com.alpharec.util.ObjectAnalyzer.toJsonString;
 
 public class Movie {
+    private static final String TITLE_CONTAIN_YEAR = ".*\\([0-9]{4}\\)";
+    private static final String YEAR_PATTERN = "[0-9]{4}";
     private int movieId;
     private String title;
     private String genres;
@@ -36,9 +35,9 @@ public class Movie {
         this.movieId = Integer.parseInt(v[0]);
 
         v[1] = v[1].trim();
-        if (v[1].matches(".*\\([0-9]{4}\\)")) {
+        if (v[1].matches(TITLE_CONTAIN_YEAR)) {
             int begin = v[1].length();
-            Pattern yearPattern = Pattern.compile("[0-9]{4}");
+            Pattern yearPattern = Pattern.compile(YEAR_PATTERN);
             Matcher matcher = yearPattern.matcher(v[1]);
             while (matcher.find()) {
                 this.year = Integer.parseInt(matcher.group());
@@ -49,7 +48,7 @@ public class Movie {
             this.title = v[1];
         }
 
-        if (!v[2].equals(Flag.EMPTY_GENRES)) {
+        if (!Flag.EMPTY_GENRES.equals(v[2])) {
             this.genres = v[2];
         }
     }
@@ -88,17 +87,16 @@ public class Movie {
 
     @Override
     public String toString() {
-        return ToString(this);
+        return toJsonString(this);
     }
 
     @Override
-    public int hashCode(){
-        return HashCode(this);
+    public int hashCode() {
+        return getHashCode(this);
     }
 
     public static void main(String[] args) {
-        SqlSession sqlSession = MybatisUtils.getSqlSession();
-        DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
+        DbWriter dbWriter = getResource().dbWriter;
 
         String file = "Data/MovieLens/ml-latest-small/movies.csv";
         Handler handler = new Handler(file, (line) -> {
@@ -112,8 +110,5 @@ public class Movie {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        sqlSession.commit();
-        sqlSession.close();
     }
 }

@@ -2,13 +2,16 @@ package com.alpharec.pojo;
 
 import com.alpharec.data.DbWriter;
 import com.alpharec.data.Handler;
-import com.alpharec.util.MybatisUtils;
-import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Timestamp;
 
-import static com.alpharec.util.ObjectAnalyzer.ToString;
+import static com.alpharec.data.Resource.getResource;
+import static com.alpharec.util.ObjectAnalyzer.toJsonString;
 
+/**
+ * 解析rating文件
+ * @author pillvic
+* */
 public class Rating {
     private int userId;
     private int movieId;
@@ -68,12 +71,11 @@ public class Rating {
 
     @Override
     public String toString() {
-        return ToString(this);
+        return toJsonString(this);
     }
 
     public static void main(String[] args) {
-        SqlSession sqlSession = MybatisUtils.getSqlSession();
-        DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
+        DbWriter dbWriter = getResource().dbWriter;
 
         String file = "Data/MovieLens/ml-latest-small/ratings.csv";
         Handler handler = new Handler(file, (line)->{
@@ -88,8 +90,5 @@ public class Rating {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        sqlSession.commit();
-        sqlSession.close();
     }
 }

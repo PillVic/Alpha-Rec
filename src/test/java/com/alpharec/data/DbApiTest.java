@@ -2,20 +2,18 @@ package com.alpharec.data;
 
 import com.alpharec.JavaConfig;
 import com.alpharec.pojo.Link;
-import com.alpharec.util.MybatisUtils;
-import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import static com.alpharec.util.ObjectAnalyzer.ToString;
+import static com.alpharec.data.Resource.getResource;
+import static com.alpharec.util.ObjectAnalyzer.toJsonString;
 
 public class DbApiTest {
     @Test
     public void writeLinks() {
         String file = "/home/neovic/Work/RecommendSystem/DataSet/MovieLens/ml-latest-small/links.csv";
-        SqlSession sqlSession = MybatisUtils.getSqlSession();
-        DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
+        DbWriter dbWriter = getResource().dbWriter;
 
         Handler h = new Handler(file, (line) -> {
             Link link = new Link(line);
@@ -25,8 +23,6 @@ public class DbApiTest {
         r.start();
         try {
             r.join();
-
-            sqlSession.close();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -39,14 +35,13 @@ public class DbApiTest {
         System.out.println(r.dbReader.getMinUserId());
         System.out.println(r.dbReader.getMaxUserId());
         for(var t:r.dbReader.getMovieRatingsByUserId(1)){
-            System.out.println(ToString(t));
+            System.out.println(toJsonString(t));
         }
     }
 
     @Test
     public void readRecord() {
-        SqlSession sqlSession = MybatisUtils.getSqlSession();
-        DbReader dbReader = sqlSession.getMapper(DbReader.class);
+        DbReader dbReader = getResource().dbReader;
 
         System.out.println(dbReader.getMaxMovieId());
         System.out.println(dbReader.getMinMovieId());

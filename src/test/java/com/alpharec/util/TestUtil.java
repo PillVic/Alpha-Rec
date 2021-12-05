@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.alpharec.util.ObjectAnalyzer.SubList;
+import static com.alpharec.util.ObjectAnalyzer.subList;
 import static com.alpharec.util.ObjectAnalyzer.getTopN;
 
 public class TestUtil {
@@ -31,7 +31,7 @@ public class TestUtil {
         for (int i = 0; i < 100; i++) {
             list.add(i);
         }
-        for (var i : SubList(list, 14)) {
+        for (var i : subList(list, 14)) {
             logger.info("[INFO]:subList:{}, size:{}", i, i.size());
         }
     }

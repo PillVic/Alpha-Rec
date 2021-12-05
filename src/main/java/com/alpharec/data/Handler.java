@@ -1,22 +1,22 @@
 package com.alpharec.data;
 
-import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Consumer;
 
-/*主要用于进行数据导入的公共部分导入部分抽象
+/**
+ * 主要用于进行数据导入的公共部分导入部分抽象
+ * @author pillvic
  * */
 public class Handler implements Runnable {
-    private final int blockSize = 10240;
+    private final int BATCH_SIZE = 10240;
 
     private final BlockingQueue<String> queue;
     private final FileLineReader fr;
     private final Consumer<String> consumer;
 
     public Handler(String fileName, Consumer<String> consumer) {
-        this.queue = new ArrayBlockingQueue<>(blockSize);
+        this.queue = new ArrayBlockingQueue<>(BATCH_SIZE);
         fr = new FileLineReader(queue, fileName);
         this.consumer = consumer;
     }

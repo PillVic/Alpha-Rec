@@ -4,7 +4,7 @@ import com.alpharec.pojo.Movie;
 
 import java.util.*;
 
-import static com.alpharec.util.ObjectAnalyzer.ToString;
+import static com.alpharec.util.ObjectAnalyzer.toJsonString;
 
 public class MovieItem {
     private final Movie movie;
@@ -48,7 +48,9 @@ public class MovieItem {
     }
 
     public double getAverage() {
-        if (this.seenCount == 0) return 0;
+        if (this.seenCount == 0) {
+            return 0;
+        }
         return this.totalRate / this.seenCount;
     }
 
@@ -62,7 +64,7 @@ public class MovieItem {
 
     @Override
     public String toString() {
-        return ToString(this);
+        return toJsonString(this);
     }
 
 }

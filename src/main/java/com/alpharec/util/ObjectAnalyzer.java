@@ -5,8 +5,12 @@ import java.util.stream.Collectors;
 
 import static java.lang.Math.min;
 
+/**
+ * 通用的静态处理方法
+ * @author pillvic
+* */
 public class ObjectAnalyzer {
-    public static <T> String ToString(T t) {
+    public static <T> String toJsonString(T t) {
         StringBuilder s = new StringBuilder();
         s.append(String.format("%s{", t.getClass().getName()));
         for (var field : t.getClass().getDeclaredFields()) {
@@ -38,8 +42,8 @@ public class ObjectAnalyzer {
         return set == null || set.isEmpty();
     }
 
-    public static <T> int HashCode(T t) {
-        return ToString(t).hashCode();
+    public static <T> int getHashCode(T t) {
+        return toJsonString(t).hashCode();
     }
 
     public static <T> List<T> getTopN(int n, List<T> list, Comparator<T> comparator) {
@@ -50,7 +54,7 @@ public class ObjectAnalyzer {
                 .limit(n).collect(Collectors.toList());
     }
 
-    public static <T> List<List<T>> SubList(List<T> list, int subSize) {
+    public static <T> List<List<T>> subList(List<T> list, int subSize) {
         List<List<T>> r = new ArrayList<>();
         if (list == null || list.isEmpty()) {
             return r;

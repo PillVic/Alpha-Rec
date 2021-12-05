@@ -17,14 +17,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.util.*;
 
-import static com.alpharec.indexbuilder.MovieIndexBuilder.BuildMovieItem;
+import static com.alpharec.indexbuilder.MovieIndexBuilder.buildMovieItem;
 import static com.alpharec.util.Flag.UserField.*;
 import static com.alpharec.util.ObjectAnalyzer.*;
 
+/** 建立和user相关的倒排索引
+ * @author pillvic
+* */
 public class UserIndexBuilder implements Runnable {
     public static final Logger logger = LoggerFactory.getLogger(UserIndexBuilder.class);
     public static final String USER_INDEX_PATH = "Data/Index/UserIndex";
-    public static final int topNum = 100;
+    public static final int TOP_NUM = 100;
 
     @Override
     public void run() {
@@ -57,12 +60,12 @@ public class UserIndexBuilder implements Runnable {
         if (isNullOrEmptyList(ratingList)) {
             return null;
         }
-        Map<String, Double> preferTagMap = new HashMap<>();
-        Map<String, Double> preferGenresMap = new HashMap<>();
+        Map<String, Double> preferTagMap = new HashMap<>(ratingList.size());
+        Map<String, Double> preferGenresMap = new HashMap<>(ratingList.size());
 
         for (var rating : ratingList) {
             int movieId = rating.getMovieId();
-            MovieItem movieItem = BuildMovieItem(movieId);
+            MovieItem movieItem = buildMovieItem(movieId);
             List<String> genres = movieItem.getGenreList();
             if (!isNullOrEmptyList(genres)) {
                 genres.forEach(t -> {
@@ -84,10 +87,10 @@ public class UserIndexBuilder implements Runnable {
                 });
             }
         }
-        userItem.setPreferTag(getTopN(topNum, preferTagMap.keySet().stream().toList(),
+        userItem.setPreferTag(getTopN(TOP_NUM, preferTagMap.keySet().stream().toList(),
                 Comparator.comparingDouble((preferTagMap::get))
         ));
-        userItem.setPreferGenres(getTopN(topNum, preferGenresMap.keySet().stream().toList(),
+        userItem.setPreferGenres(getTopN(TOP_NUM, preferGenresMap.keySet().stream().toList(),
                 Comparator.comparingDouble(preferGenresMap::get)));
         return userItem;
     }

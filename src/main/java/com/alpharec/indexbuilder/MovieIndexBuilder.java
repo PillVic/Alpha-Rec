@@ -17,26 +17,29 @@ import java.util.Set;
 
 import static com.alpharec.util.Flag.MovieField.*;
 
+/** 用于构建movie的倒排索引
+ * @author pillvic
+* */
 public class MovieIndexBuilder implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(MovieIndexBuilder.class);
     public static int threads = 20;
     public static final String MOVIE_INDEX_PATH = "Data/Index/MovieIndex";
-    private static final  Resource r;
+    private static final  Resource RESOURCE;
 
     static{
         ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
-        r = context.getBean("resource", Resource.class);
+        RESOURCE = context.getBean("resource", Resource.class);
     }
 
     @Override
     public void run() {
         try {
-            int minMovieId = r.dbReader.getMinMovieId();
-            int maxMovieId = r.dbReader.getMaxMovieId();
+            int minMovieId = RESOURCE.dbReader.getMinMovieId();
+            int maxMovieId = RESOURCE.dbReader.getMaxMovieId();
             log.info("[INFO]: minMovieId:{}, maxMovieId:{}", minMovieId, maxMovieId);
             List<MovieItem> movieItems = indexRange(minMovieId, maxMovieId);
 
-            IndexWriter indexWriter = r.getIndexWriter(MOVIE_INDEX_PATH);
+            IndexWriter indexWriter = RESOURCE.getIndexWriter(MOVIE_INDEX_PATH);
             for (var movieItem : movieItems) {
                 Movie movie = movieItem.getMovie();
                 log.info("id:{}, name:{}", movie.getMovieId(), movie.getTitle());
@@ -49,7 +52,9 @@ public class MovieIndexBuilder implements Runnable {
 
     private Document getMovieDoc(MovieItem movieItem) {
         Document doc = new Document();
-        if (movieItem == null) return doc;
+        if (movieItem == null) {
+            return doc;
+        }
         doc.add(new TextField(MOVIE_ID + "", movieItem.getMovie().getMovieId() + "", Field.Store.YES));
         Set<String> tags = movieItem.getTags();
         if (tags != null && !tags.isEmpty()) {
@@ -71,21 +76,21 @@ public class MovieIndexBuilder implements Runnable {
     }
 
     public static  List<MovieItem> indexRange(int minMovieId, int maxMovieId) {
-        List<Integer> movieIds = r.dbReader.getMovieIds(minMovieId, maxMovieId);
+        List<Integer> movieIds = RESOURCE.dbReader.getMovieIds(minMovieId, maxMovieId);
         List<MovieItem> movieItems = new ArrayList<>();
         for (var movieId : movieIds) {
-            MovieItem movieItem = BuildMovieItem(movieId);
+            MovieItem movieItem = buildMovieItem(movieId);
             movieItems.add(movieItem);
         }
         return movieItems;
     }
 
-    public static MovieItem BuildMovieItem(int movieId) {
-        MovieItem movieItem = new MovieItem(r.dbReader.getMovieById(movieId));
-        for (var tag : r.dbReader.getTagsByMovieId(movieId)) {
+    public static MovieItem buildMovieItem(int movieId) {
+        MovieItem movieItem = new MovieItem(RESOURCE.dbReader.getMovieById(movieId));
+        for (var tag : RESOURCE.dbReader.getTagsByMovieId(movieId)) {
             movieItem.addTag(tag.getTag());
         }
-        for (var rating : r.dbReader.getMovieRatingsByMovieId(movieId)) {
+        for (var rating : RESOURCE.dbReader.getMovieRatingsByMovieId(movieId)) {
             movieItem.addRate(rating.getRating());
         }
         return movieItem;

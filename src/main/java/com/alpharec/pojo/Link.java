@@ -1,13 +1,20 @@
 package com.alpharec.pojo;
 
+import com.alpharec.JavaConfig;
 import com.alpharec.data.DbWriter;
 import com.alpharec.data.Handler;
-import com.alpharec.util.MybatisUtils;
-import org.apache.ibatis.session.SqlSession;
+import com.alpharec.data.Resource;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import static com.alpharec.util.ObjectAnalyzer.ToString;
+import static com.alpharec.util.ObjectAnalyzer.toJsonString;
 
+/**
+ * @author pillvic
+* */
 public class Link {
+    private static final int VALID_COL_NUM = 3;
+    private static final String LINK_FILE = "Data/MovieLens/ml-latest-small/links.csv";
     private int movieId;
     private int imdbId;
     private int tmdbId;
@@ -25,7 +32,7 @@ public class Link {
         String[] cols = line.split(",");
         this.movieId = Integer.parseInt(cols[0]);
         this.imdbId = Integer.parseInt(cols[1]);
-        if (cols.length == 3) {
+        if (cols.length == VALID_COL_NUM) {
             this.tmdbId = Integer.parseInt(cols[2]);
         }
         System.out.println(this);
@@ -57,16 +64,16 @@ public class Link {
 
     @Override
     public String toString() {
-        return ToString(this);
+        return toJsonString(this);
     }
 
     public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
+        Resource resource = context.getBean("resource", Resource.class);
 
-        String file = "Data/MovieLens/ml-latest-small/links.csv";
-        SqlSession sqlSession = MybatisUtils.getSqlSession();
-        DbWriter dbWriter = sqlSession.getMapper(DbWriter.class);
+        DbWriter dbWriter = resource.dbWriter;
 
-        Handler h = new Handler(file, (line)->{
+        Handler h = new Handler(LINK_FILE, (line)->{
             Link link = new Link(line);
             dbWriter.insertLink(link);
         });
@@ -74,12 +81,8 @@ public class Link {
         r.start();
         try {
             r.join();
-
-            sqlSession.commit();
-            sqlSession.close();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-
 }

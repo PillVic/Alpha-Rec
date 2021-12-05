@@ -8,6 +8,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author pillvic
+ * 封装mybatis的sqlsession
+* */
 public class MybatisUtils {
     private static SqlSessionFactory sqlSessionFactory;
     static{
@@ -19,7 +23,14 @@ public class MybatisUtils {
             e.printStackTrace();
         }
     }
-    public static SqlSession getSqlSession(){
-        return sqlSessionFactory.openSession();
+    public static SqlSession getSqlSession(boolean realWrite){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        Runtime.getRuntime().addShutdownHook(new Thread(()->{
+            if(realWrite){
+                sqlSession.commit();
+            }
+            sqlSession.close();
+        }));
+        return sqlSession;
     }
 }
