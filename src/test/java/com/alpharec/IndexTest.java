@@ -2,6 +2,7 @@ package com.alpharec;
 
 import com.alpharec.data.Resource;
 import com.alpharec.item.MovieItem;
+import com.alpharec.util.Flag;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;

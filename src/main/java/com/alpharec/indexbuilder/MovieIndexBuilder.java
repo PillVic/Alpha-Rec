@@ -17,16 +17,18 @@ import java.util.Set;
 
 import static com.alpharec.util.Flag.MovieField.*;
 
-/** 用于构建movie的倒排索引
+/**
+ * 用于构建movie的倒排索引
+ *
  * @author pillvic
-* */
+ */
 public class MovieIndexBuilder implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(MovieIndexBuilder.class);
     public static int threads = 20;
     public static final String MOVIE_INDEX_PATH = "Data/Index/MovieIndex";
-    private static final  Resource RESOURCE;
+    private static final Resource RESOURCE;
 
-    static{
+    static {
         ApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
         RESOURCE = context.getBean("resource", Resource.class);
     }
@@ -71,11 +73,15 @@ public class MovieIndexBuilder implements Runnable {
         doc.add(new DoublePoint(MOVIE_TOTAL_SCORE + "", movieItem.getTotalRate()));
         doc.add(new IntPoint(MOVIE_SEEN + "", movieItem.getSeenCount()));
         doc.add(new DoublePoint(MOVIE_AVERAGE + "", movieItem.getAverage()));
-        doc.add(new IntPoint(MOVIE_YEAR + "", movieItem.getMovie().getYear()));
+
+        doc.add(new StoredField(MOVIE_TOTAL_SCORE+"", movieItem.getTotalRate()+""));
+        doc.add(new StoredField(MOVIE_SEEN+"", movieItem.getSeenCount()+""));
+        doc.add(new StoredField(MOVIE_AVERAGE + "", movieItem.getAverage() + ""));
+        doc.add(new StoredField(MOVIE_YEAR + "", movieItem.getMovie().getYear() + ""));
         return doc;
     }
 
-    public static  List<MovieItem> indexRange(int minMovieId, int maxMovieId) {
+    public static List<MovieItem> indexRange(int minMovieId, int maxMovieId) {
         List<Integer> movieIds = RESOURCE.dbReader.getMovieIds(minMovieId, maxMovieId);
         List<MovieItem> movieItems = new ArrayList<>();
         for (var movieId : movieIds) {

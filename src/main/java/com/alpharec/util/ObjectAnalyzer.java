@@ -1,5 +1,7 @@
 package com.alpharec.util;
 
+import org.springframework.util.CollectionUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -7,8 +9,9 @@ import static java.lang.Math.min;
 
 /**
  * 通用的静态处理方法
+ *
  * @author pillvic
-* */
+ */
 public class ObjectAnalyzer {
     public static <T> String toJsonString(T t) {
         StringBuilder s = new StringBuilder();

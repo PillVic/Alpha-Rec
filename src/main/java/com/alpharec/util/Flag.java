@@ -5,6 +5,7 @@ public class Flag {
 
     /**
      * 记录Movie的所有倒排相关字段
+     *
     * */
     public enum MovieField {
         MOVIE_TAG, MOVIE_GENRES, MOVIE_ID, MOVIE_YEAR,

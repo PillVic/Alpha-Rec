@@ -5,10 +5,7 @@ import com.alpharec.data.Resource;
 import com.alpharec.item.MovieItem;
 import com.alpharec.item.UserItem;
 import com.alpharec.pojo.Rating;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +18,11 @@ import static com.alpharec.indexbuilder.MovieIndexBuilder.buildMovieItem;
 import static com.alpharec.util.Flag.UserField.*;
 import static com.alpharec.util.ObjectAnalyzer.*;
 
-/** 建立和user相关的倒排索引
+/**
+ * 建立和user相关的倒排索引
+ *
  * @author pillvic
-* */
+ */
 public class UserIndexBuilder implements Runnable {
     public static final Logger logger = LoggerFactory.getLogger(UserIndexBuilder.class);
     public static final String USER_INDEX_PATH = "Data/Index/UserIndex";
@@ -97,7 +96,7 @@ public class UserIndexBuilder implements Runnable {
 
     public Document getDoc(UserItem userItem) {
         Document doc = new Document();
-        doc.add(new IntPoint(USER_ID + "", userItem.userId));
+        doc.add(new TextField(USER_ID + "", userItem.userId + "", Field.Store.YES));
         if (!isNullOrEmptyList(userItem.preferGenres)) {
             userItem.preferGenres.forEach(
                     t -> doc.add(new TextField(PREFER_GENRES + "", t, Field.Store.YES)));
