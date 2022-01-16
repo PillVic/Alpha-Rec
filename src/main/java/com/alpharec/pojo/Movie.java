@@ -14,6 +14,7 @@ import static com.alpharec.util.ObjectAnalyzer.toJsonString;
 public class Movie {
     private static final String TITLE_CONTAIN_YEAR = ".*\\([0-9]{4}\\)";
     private static final String YEAR_PATTERN = "[0-9]{4}";
+    private static final Pattern LEAGAL_MOVIE_PATTERN = Pattern.compile("[0-9]+.*");
     private int movieId;
     private String title;
     private String genres;
@@ -30,8 +31,12 @@ public class Movie {
     }
 
     public Movie(String line) {
-        String cleanLine = line.replaceAll("\"", "");
-        String[] v = cleanLine.split(",");
+        String[] v;
+        if (line.contains("\"")) {
+            v = line.split("(,\")|(\",)");
+        } else {
+            v = line.split(",");
+        }
         this.movieId = Integer.parseInt(v[0]);
 
         v[1] = v[1].trim();
@@ -100,8 +105,12 @@ public class Movie {
 
         String file = "Data/MovieLens/ml-latest-small/movies.csv";
         Handler handler = new Handler(file, (line) -> {
-            Movie movie = new Movie(line);
-            dbWriter.insertMovie(movie);
+            System.out.println(line);
+            if (line != null && LEAGAL_MOVIE_PATTERN.matcher(line).find()) {
+                Movie movie = new Movie(line);
+                dbWriter.insertMovie(movie);
+                System.out.println(line);
+            }
         });
         Thread r = new Thread(handler, "write link");
         r.start();
